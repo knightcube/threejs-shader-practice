@@ -2,6 +2,7 @@ import * as THREE from './three.js-master/build/three.module.js'
 import {OrbitControls} from './three.js-master/examples/jsm/controls/OrbitControls.js'
 import vShader from './shaders/vertexShader.glsl.js'
 import fShader from './shaders/fragmentShader.glsl.js'
+import {GLTFLoader} from './three.js-master/examples/jsm/loaders/GLTFLoader.js'
 
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
@@ -13,7 +14,7 @@ const sizes = {
 }
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height, 0.1, 100)
-camera.position.z = 3
+camera.position.z = 2
 scene.add(camera)
 
 const geometry = new THREE.BoxGeometry(2,2,2)
@@ -42,9 +43,45 @@ const material = new THREE.MeshBasicMaterial({
     color: 'blue'
 })
 const cubeMesh = new THREE.Mesh(geometry,customShaderMaterial)
-scene.add(cubeMesh)
+// scene.add(cubeMesh)
 
 
+const loader = new GLTFLoader()
+loader.load('./assets/roncho/source/roncho.glb', function(glb){
+    console.log(glb);
+    const root = glb.scene;
+    const rootMaterials = glb.scene.children[0].material
+    glb.scene.children[0].material = customShaderMaterial;
+    console.log(glb.scene.children[0])
+    console.log(glb.scene.children[0])
+
+    // for(let i = 0; i<glb.scene.children[0].children[0].children.length; i++){
+    //     let eachMesh = glb.scene.children[0].children[0].children[i];
+    //     console.log(glb.scene.children[0].children[0].children[i]);
+    //     if(eachMesh instanceof THREE.Mesh){
+    //         glb.scene.children[0].children[0].children[i].material = customShaderMaterial;
+    //     }else{
+    //         console.log("This is not a mesh=>"+eachMesh);
+    //     }
+    
+    // }
+
+    // for (var eachMesh in glb.scene.children[0].children[0].children){
+    //     console.log(eachMesh);
+    // }
+    // glb.scene.children[0].material = customShaderMaterial;
+    console.log(rootMaterials);
+    scene.add(root);
+}, function(xhr){
+    console.log((xhr.loaded/xhr.total * 100) +"% loaded");
+}, function(error){
+    console.log("An error occurred=>",error);
+})
+
+
+const light = new THREE.DirectionalLight(0xffffff, 1)
+light.position.set(0, 1, 5)
+scene.add(light)
 
 const controls = new OrbitControls(camera, canvas)
 controls.enableZoom = false;
