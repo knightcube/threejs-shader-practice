@@ -13,7 +13,7 @@ const sizes = {
 }
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height, 0.1, 100)
-camera.position.z = 3
+camera.position.z = 4
 scene.add(camera)
 
 const geometry = new THREE.BoxGeometry(2,2,2)
