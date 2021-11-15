@@ -27,10 +27,10 @@ const uniforms = {
     time: {value:0.0},
     u_resolution: { value:{ x:window.innerWidth, y:window.innerHeight }},
     charSize:  { value:{ x:2.0, y:1.5 }},
-    charResolution: {value:5.5},
+    charResolution: {value:6.5},
     color: {value: new THREE.Color('green')},
     resolution: { value:{ x:1.0, y:1.0 }},
-    speed: {value: 18.0}
+    speed: {value: 5.0}
 }
 
 const customShaderMaterial = new THREE.ShaderMaterial({
